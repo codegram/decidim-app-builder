@@ -10,7 +10,7 @@ ARG rancherUrl=
 ENV APP_HOME /code
 ENV GITHUB_SECRET $githubSecret
 ENV GITHUB_BRANCH $githubBranch
-ENV RANCHER_BUILD rancher-linux-amd64-v0.1.0.tar.gz
+ENV RANCHER_VERSION v0.1.0
 ENV RANCHER_ACCESS_KEY $rancherAccessKey
 ENV RANCHER_SECRET_KEY $rancherSecretKey
 ENV RANCHER_URL $rancherUrl
@@ -23,8 +23,8 @@ RUN mkdir -p $HOME/.rancher && \
     echo "{\"accessKey\":\"$RANCHER_ACCESS_KEY\",\"secretKey\":\"$RANCHER_SECRET_KEY\",\"url\":\"$RANCHER_URL\",\"environment\":\"1a5\"}" > $HOME/.rancher/cli.json
 
 RUN cd /tmp && \
-    wget https://github.com/rancher/cli/releases/download/v0.1.0/$RANCHER_BUILD && \
-    tar -xzvf $RANCHER_BUILD
+    wget https://github.com/rancher/cli/releases/download/$RANCHER_VERSION/rancher-linux-amd64-$RANCHER_VERSION.tar.gz && \
+    tar -xzvf rancher-linux-amd64-$RANCHER_VERSION.tar.gz
 
 RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
