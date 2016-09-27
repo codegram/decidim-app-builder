@@ -6,3 +6,5 @@ services:
       - .:/code
     ports:
       - 4567:4567
+    environment:
+      - GITHUB_BRANCH=test-app
