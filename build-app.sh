@@ -5,7 +5,7 @@ DECIDIM_GITHUB_COMMIT_ID=$2
 
 DECIDIM_APP_NAME="decidim-testapp"
 DECIDIM_PATH="/tmp/decidim"
-DOCKER="rancher --host decidim docker"
+DOCKER="/tmp/$RANCHER_BUILD/rancher --host decidim docker"
 RANCHER_STACK="decidim-testapp"
 RANCHER_SERVICE="app"
 
