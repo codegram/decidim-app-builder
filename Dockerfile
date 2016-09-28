@@ -25,7 +25,8 @@ RUN mkdir -p $HOME/.rancher && \
 RUN mkdir -p $HOME/.docker && \
     echo "{\"auths\":{\"https://index.docker.io/v1/\": {\"auth\":\"$dockerAuth\",\"email\":\"david.morcillo@gmail.com\"}}}" > $HOME/.docker/config.json
 
-RUN cd /tmp && \
+RUN mkdir -p /rancher && \
+    cd /rancher && \
     wget https://github.com/rancher/cli/releases/download/$RANCHER_VERSION/rancher-linux-amd64-$RANCHER_VERSION.tar.gz && \
     tar -xzvf rancher-linux-amd64-$RANCHER_VERSION.tar.gz
 

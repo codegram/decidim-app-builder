@@ -8,7 +8,7 @@ TEMP_PATH="/tmp"
 DECIDIM_PATH="$TEMP_PATH/decidim"
 DECIDIM_APP_PATH="$TEMP_PATH/$DECIDIM_APP_NAME"
 
-RANCHER="/tmp/rancher-$RANCHER_VERSION/rancher"
+RANCHER="/rancher/rancher-$RANCHER_VERSION/rancher"
 DOCKER="$RANCHER --host decidim docker"
 
 RANCHER_STACK="decidim-testapp"
