@@ -14,22 +14,28 @@ DOCKER="$RANCHER --host decidim docker"
 RANCHER_STACK="decidim-testapp"
 RANCHER_SERVICE="app"
 
+echo "Cleaning old folders..."
 rm -rf $DECIDIM_PATH
 rm -rf $DECIDIM_APP_PATH
 
+echo "Cloning decidim repository..."
 git clone $DECIDIM_GITHUB_URL $DECIDIM_PATH
 cd $DECIDIM_PATH && git checkout $DECIDIM_GITHUB_COMMIT_ID
 
 $DOCKER login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 
+echo "Building decidim docker image..."
 $DOCKER build -t codegram/decidim $DECIDIM_PATH
-
 $DOCKER push codegram/decidim
  
+echo "Generating decidim test application..."
 $DOCKER run --rm -v $TEMP_PATH:/tmp codegram/decidim /tmp/$DECIDIM_APP_NAME
  
+echo "Building decidim test application docker image..."
 $DOCKER build -t codegram/$DECIDIM_APP_NAME $DECIDIM_PATH/$DECIDIM_APP_NAME
- 
 $DOCKER push codegram/$DECIDIM_APP_NAME
 
+echo "Upgrading decidim test application service..."
+$RANCHER export $RANCHER_STACK > $RANCHER_STACK.tar
+tar -xvf $RANCHER_STACK.tar
 $RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_SERVICE
