@@ -29,10 +29,10 @@ $DOCKER build -t codegram/decidim $DECIDIM_PATH
 $DOCKER push codegram/decidim
  
 echo "Generating decidim test application..."
-$DOCKER run --rm -v $TEMP_PATH:/tmp codegram/decidim /tmp/$DECIDIM_APP_NAME
+$DOCKER run --rm -v $TEMP_PATH:/tmp codegram/decidim --edge /tmp/$DECIDIM_APP_NAME
  
 echo "Building decidim test application docker image..."
-$DOCKER build -t codegram/$DECIDIM_APP_NAME $DECIDIM_PATH/$DECIDIM_APP_NAME
+$DOCKER build --build-arg secret_key_base=1234 -t codegram/$DECIDIM_APP_NAME $DECIDIM_PATH/$DECIDIM_APP_NAME
 $DOCKER push codegram/$DECIDIM_APP_NAME
 
 echo "Upgrading decidim test application service..."
