@@ -12,9 +12,6 @@ app.use(bodyParser.json());
 app.use(webhookHandler);
 
 webhookHandler.on('push', function (repo, data) {
-  console.log(repo);
-  console.log(data.ref);
-  console.log(process.env.GITHUB_BRANCH);
   if (repo === "decidim" && data.ref === `refs/heads/${process.env.GITHUB_BRANCH}`) {
     var githubUrl = data.repository.clone_url;
     var headCommit = data.head_commit.id;
