@@ -1,21 +1,22 @@
 FROM node:6.6.0
 MAINTAINER david.morcillo@codegram.com
 
-ARG githubSecret=
-ARG githubBranch=master
 ARG rancherAccessKey=
 ARG rancherSecretKey=
 ARG rancherUrl=
 
 ENV APP_HOME /code
-ENV GITHUB_SECRET $githubSecret
-ENV GITHUB_BRANCH $githubBranch
 ENV RANCHER_VERSION v0.1.0
 ENV RANCHER_ACCESS_KEY $rancherAccessKey
 ENV RANCHER_SECRET_KEY $rancherSecretKey
 ENV RANCHER_URL $rancherUrl
 
-RUN apt-get update && apt-get install wget
+RUN apt-get update && apt-get install -y wget apt-transport-https ca-certificates
+
+RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D && \
+    echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" >> /etc/apt/sources.list
+
+RUN apt-get update && apt-get install -y docker-engine
 
 RUN npm install -g nodemon
 
