@@ -4,12 +4,11 @@ MAINTAINER david.morcillo@codegram.com
 ARG rancherAccessKey=
 ARG rancherSecretKey=
 ARG rancherUrl=
+ARG dockerAuth=
 
 ENV APP_HOME /code
+
 ENV RANCHER_VERSION v0.1.0
-ENV RANCHER_ACCESS_KEY $rancherAccessKey
-ENV RANCHER_SECRET_KEY $rancherSecretKey
-ENV RANCHER_URL $rancherUrl
 
 RUN apt-get update && apt-get install -y wget apt-transport-https ca-certificates
 
@@ -21,7 +20,10 @@ RUN apt-get update && apt-get install -y docker-engine
 RUN npm install -g nodemon
 
 RUN mkdir -p $HOME/.rancher && \
-    echo "{\"accessKey\":\"$RANCHER_ACCESS_KEY\",\"secretKey\":\"$RANCHER_SECRET_KEY\",\"url\":\"$RANCHER_URL\",\"environment\":\"1a5\"}" > $HOME/.rancher/cli.json
+    echo "{\"accessKey\":\"$rancherAccessKey\",\"secretKey\":\"$rancherSecretKey\",\"url\":\"$rancherUrl\",\"environment\":\"1a5\"}" > $HOME/.rancher/cli.json
+
+RUN mkdir -p $HOME/.docker && \
+    echo "{\"auths\":{\"https://index.docker.io/v1/\": {\"auth\":\"$dockerAuth\",\"email\":\"david.morcillo@gmail.com\"}}}" > $HOME/.docker/config.json
 
 RUN cd /tmp && \
     wget https://github.com/rancher/cli/releases/download/$RANCHER_VERSION/rancher-linux-amd64-$RANCHER_VERSION.tar.gz && \
