@@ -12,7 +12,8 @@ RANCHER="/rancher/rancher-$RANCHER_VERSION/rancher"
 DOCKER="$RANCHER --host decidim docker"
 
 RANCHER_STACK="decidim-testapp"
-RANCHER_SERVICE="app"
+RANCHER_APP_SERVICE="app"
+RANCHER_NGINX_SERVICE="nginx"
 
 echo "Cleaning old folders..."
 rm -rf $DECIDIM_PATH
@@ -35,7 +36,12 @@ echo "Building decidim test application docker image..."
 $DOCKER build --build-arg secret_key_base=1234 -t codegram/$DECIDIM_APP_NAME $DECIDIM_PATH/$DECIDIM_APP_NAME
 $DOCKER push codegram/$DECIDIM_APP_NAME
 
-echo "Upgrading decidim test application service..."
+echo "Exporting rancher stack config..."
 $RANCHER export $RANCHER_STACK > $RANCHER_STACK.tar
 tar -xvf $RANCHER_STACK.tar
-$RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_SERVICE
+
+echo "Upgrading decidim test application service..."
+$RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_APP_SERVICE
+
+echo "Upgrading nginx service..."
+$RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_NGINX_SERVICE
