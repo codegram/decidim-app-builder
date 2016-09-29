@@ -14,6 +14,7 @@ DOCKER="$RANCHER --host decidim docker"
 RANCHER_STACK="decidim-testapp"
 RANCHER_APP_SERVICE="app"
 RANCHER_NGINX_SERVICE="nginx"
+RANCHER_ASSETS_TASK_SERVICE="task-assets-precompile"
 
 echo "Cleaning old folders..."
 rm -rf $DECIDIM_PATH
@@ -47,3 +48,6 @@ $RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_APP_SERVICE
 
 echo "Upgrading nginx service..."
 $RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_NGINX_SERVICE
+
+echo "Compiling assets..."
+$RANCHER up -s $RANCHER_STACK -d $RANCHER_ASSETS_TASK_SERVICE
