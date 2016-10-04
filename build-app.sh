@@ -14,6 +14,7 @@ DOCKER="$RANCHER --host decidim docker"
 RANCHER_STACK="decidim-testapp"
 RANCHER_APP_SERVICE="app"
 RANCHER_NGINX_SERVICE="nginx"
+RANCHER_DB_TASK_SERVICE="task-db-setup"
 RANCHER_ASSETS_TASK_SERVICE="task-assets-precompile"
 
 echo "Cleaning old folders..."
@@ -43,6 +44,12 @@ echo "Exporting rancher stack config..."
 $RANCHER export $RANCHER_STACK > $RANCHER_STACK.tar
 tar -xvf $RANCHER_STACK.tar
 
+echo "Stopping decidim test application service..."
+$RANCHER stop --type service $RANCHER_APP_SERVICE
+
+echo "Re-creating database..."
+$RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_DB_TASK_SERVICE_
+
 echo "Upgrading decidim test application service..."
 $RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_APP_SERVICE
 
@@ -50,4 +57,4 @@ echo "Upgrading nginx service..."
 $RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_NGINX_SERVICE
 
 echo "Compiling assets..."
-$RANCHER up -s $RANCHER_STACK -d $RANCHER_ASSETS_TASK_SERVICE
+$RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_ASSETS_TASK_SERVICE
