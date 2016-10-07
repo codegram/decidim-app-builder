@@ -34,6 +34,7 @@ $DOCKER push codegram/decidim
 echo "Generating decidim test application..."
 $DOCKER run --rm -e DECIDIM_APP_NAME=$DECIDIM_APP_NAME \
              -v $TEMP_PATH:/tmp codegram/decidim \
+             --log-opt max-size=50m \
              bundle exec bin/decidim --edge /tmp/$DECIDIM_APP_NAME
  
 echo "Building decidim test application docker image..."
