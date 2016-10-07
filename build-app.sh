@@ -50,7 +50,7 @@ echo "Stopping decidim test application service..."
 $RANCHER stop --type service $RANCHER_APP_SERVICE
 
 echo "Re-creating database..."
-$RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_DB_TASK_SERVICE_
+$RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_DB_TASK_SERVICE
 
 echo "Upgrading decidim test application service..."
 $RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_APP_SERVICE
