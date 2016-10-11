@@ -7,4 +7,9 @@ services:
     ports:
       - 4567:4567
     environment:
-      - GITHUB_BRANCH=test-app
+      - GITHUB_BRANCH=master
+      - REDIS_URL=redis://redis
+    links:
+      - redis
+  redis:
+    image: redis
