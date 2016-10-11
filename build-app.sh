@@ -50,13 +50,13 @@ echo "Stopping decidim test application service..."
 $RANCHER stop --type service $RANCHER_APP_SERVICE
 
 echo "Re-creating database..."
-$RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_DB_TASK_SERVICE
+$RANCHER up -s $RANCHER_STACK --force-upgrade -c -d -p $RANCHER_DB_TASK_SERVICE
 
 echo "Upgrading decidim test application service..."
-$RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_APP_SERVICE
+$RANCHER up -s $RANCHER_STACK --force-upgrade -c -d -p $RANCHER_APP_SERVICE
 
 echo "Upgrading nginx service..."
-$RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_NGINX_SERVICE
+$RANCHER up -s $RANCHER_STACK --force-upgrade -c -d -p $RANCHER_NGINX_SERVICE
 
 echo "Compiling assets..."
-$RANCHER up -s $RANCHER_STACK -u -c -d -p $RANCHER_ASSETS_TASK_SERVICE
+$RANCHER up -s $RANCHER_STACK --force-upgrade -c -d -p $RANCHER_ASSETS_TASK_SERVICE

@@ -30,6 +30,10 @@ RUN mkdir -p /rancher && \
     wget https://github.com/rancher/cli/releases/download/$RANCHER_VERSION/rancher-linux-amd64-$RANCHER_VERSION.tar.gz && \
     tar -xzvf rancher-linux-amd64-$RANCHER_VERSION.tar.gz
 
+# Set the timezone.
+RUN echo "Europe/Madrid" > /etc/timezone
+RUN dpkg-reconfigure -f noninteractive tzdata
+
 RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 ADD . $APP_HOME
