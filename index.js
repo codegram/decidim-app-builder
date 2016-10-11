@@ -15,13 +15,12 @@ app.use(webhookHandler);
 
 webhookHandler.on('push', handler);
 
-app.get('/', function (req, res) {
-  handler('decidim', { ref: 'refs/heads/master', repository: {
-    clone_url: 'dontcare'
-  }, head_commit: {
-    id: '123456'
-  }});
-  res.send("OK");
+app.set('view engine', 'pug');
+
+app.get('/jobs', function (req, res) {
+  worker.list().then(function (jobs) {
+    res.render('jobs', { jobs: jobs });
+  });
 });
 
 app.listen(4567, function () {

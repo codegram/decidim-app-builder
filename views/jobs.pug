@@ -1,0 +1,16 @@
+h1 Jobs
+
+table
+  thead
+    tr
+      th JobID
+      th Start at
+      th End at
+      th Commit
+  tbody
+    each job in jobs
+      tr
+        td= job.id
+        td= job.startAt
+        td= job.endAt
+        td= job.headCommit
