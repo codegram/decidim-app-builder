@@ -40,7 +40,7 @@ $DOCKER run --rm -e DECIDIM_APP_NAME=$DECIDIM_APP_NAME \
 $DOCKER run --rm -e DECIDIM_APP_NAME=$DECIDIM_APP_NAME \
              -v $TEMP_PATH:/tmp \
              codegram/decidim \
-             cd /tmp/$DECIDIM_APP_NAME && bundle exec rails generate decidim:demo
+             bash -c "cd /tmp/$DECIDIM_APP_NAME && bundle exec rails generate decidim:demo"
              
 echo "Building decidim test application docker image..."
 $DOCKER build --build-arg secret_key_base=1234 -t codegram/$DECIDIM_APP_NAME $TEMP_PATH/$DECIDIM_APP_NAME
