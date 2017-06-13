@@ -5,11 +5,12 @@ DECIDIM_GITHUB_COMMIT_ID=$2
 
 DECIDIM_APP_NAME="decidim-testapp"
 TEMP_PATH="/tmp"
+RANCHER_HOST="decidim-staging"
 DECIDIM_PATH="$TEMP_PATH/decidim"
 DECIDIM_APP_PATH="$TEMP_PATH/$DECIDIM_APP_NAME"
 
 RANCHER="/rancher/rancher-$RANCHER_VERSION/rancher"
-DOCKER="$RANCHER --host decidim docker"
+DOCKER="$RANCHER --host $RANCHER_HOST docker"
 
 RANCHER_STACK="decidim-testapp"
 RANCHER_APP_SERVICE="app"
@@ -30,7 +31,7 @@ $DOCKER login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 echo "Building decidim docker image..."
 $DOCKER build -t codegram/decidim $DECIDIM_PATH
 $DOCKER push codegram/decidim
- 
+
 echo "Generating decidim test application..."
 $DOCKER run --rm -e DECIDIM_APP_NAME=$DECIDIM_APP_NAME \
              -v $TEMP_PATH:/tmp \
@@ -39,7 +40,7 @@ $DOCKER run --rm -e DECIDIM_APP_NAME=$DECIDIM_APP_NAME \
              "bundle exec bin/decidim --edge /tmp/$DECIDIM_APP_NAME &&
              cd /tmp/$DECIDIM_APP_NAME &&
              bundle exec rails g decidim:demo"
-             
+
 echo "Building decidim test application docker image..."
 $DOCKER build --build-arg secret_key_base=1234 -t codegram/$DECIDIM_APP_NAME $TEMP_PATH/$DECIDIM_APP_NAME
 $DOCKER push codegram/$DECIDIM_APP_NAME

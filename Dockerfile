@@ -8,7 +8,7 @@ ARG dockerAuth=
 
 ENV APP_HOME /code
 
-ENV RANCHER_VERSION v0.1.0
+ENV RANCHER_VERSION v0.6.1
 
 RUN apt-get update && apt-get install -y wget apt-transport-https ca-certificates
 
@@ -35,7 +35,11 @@ RUN echo "Europe/Madrid" > /etc/timezone
 RUN dpkg-reconfigure -f noninteractive tzdata
 
 RUN mkdir -p $APP_HOME
+
+ADD package.json /tmp
+RUN cd /tmp && npm install && cp -r /tmp/node_modules $APP_HOME
+
 WORKDIR $APP_HOME
-ADD . $APP_HOME
+ADD . $APP_HOMEk
 
 CMD npm start
