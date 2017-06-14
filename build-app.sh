@@ -26,8 +26,6 @@ echo "Cloning decidim repository..."
 git clone $DECIDIM_GITHUB_URL $DECIDIM_PATH
 cd $DECIDIM_PATH && git checkout $DECIDIM_GITHUB_COMMIT_ID
 
-$DOCKER login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-
 echo "Building decidim docker image..."
 $DOCKER build -t codegram/decidim $DECIDIM_PATH
 $DOCKER push codegram/decidim
@@ -46,8 +44,7 @@ $DOCKER build --build-arg secret_key_base=1234 -t codegram/$DECIDIM_APP_NAME $TE
 $DOCKER push codegram/$DECIDIM_APP_NAME
 
 echo "Exporting rancher stack config..."
-$RANCHER export $RANCHER_STACK > $RANCHER_STACK.tar
-tar -xvf $RANCHER_STACK.tar
+$RANCHER export $RANCHER_STACK && cd $RANCHER_STACK
 
 echo "Stopping decidim test application service..."
 $RANCHER stop --type service $RANCHER_APP_SERVICE
