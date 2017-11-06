@@ -35,9 +35,9 @@ $DOCKER run --rm -e DECIDIM_APP_NAME=$DECIDIM_APP_NAME \
              -v $TEMP_PATH:/tmp \
              --log-opt max-size=50m \
              codegram/decidim bash -c \
-             "bundle exec bin/decidim --edge /tmp/$DECIDIM_APP_NAME &&
+             "bundle exec bin/decidim --edge --demo /tmp/$DECIDIM_APP_NAME &&
              cd /tmp/$DECIDIM_APP_NAME &&
-             bundle exec rails g decidim:demo"
+             bundle install"
 
 echo "Building decidim test application docker image..."
 $DOCKER build --build-arg secret_key_base=1234 -t codegram/$DECIDIM_APP_NAME $TEMP_PATH/$DECIDIM_APP_NAME
